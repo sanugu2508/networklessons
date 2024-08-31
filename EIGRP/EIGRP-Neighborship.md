@@ -53,71 +53,72 @@ EIGRP (Enhanced Interior Gateway Routing Protocol) neighbor adjacency formation 
 
 If EIGRP neighbors are not forming or are unstable, follow this checklist:
 
-    Check AS Numbers: Ensure that the EIGRP AS numbers match on both routers.
-    Verify K-Values: Confirm that the K-values are identical on both routers.
-    Check IP Reachability: Verify that there is Layer 3 connectivity between the routers.
-    Review Interface States: Ensure the interfaces are up and not configured as passive.
-    Examine Authentication Settings: If authentication is configured, check that the keys match.
-    Check for ACLs or Firewalls: Ensure no ACLs or firewalls are blocking EIGRP traffic.
-    Inspect the Hold and Hello Timers: Ensure timers are configured correctly and are compatible.
-    Review EIGRP Debug Output: Use debug commands to see if there are errors in forming neighborships.
+1. **Check AS Numbers:** Ensure that the EIGRP AS numbers match on both routers.
+2. **Verify K-Values:** Confirm that the K-values are identical on both routers.
+3. **Check IP Reachability:** Verify that there is Layer 3 connectivity between the routers.
+4. **Review Interface States:** Ensure the interfaces are up and not configured as passive.
+5. **Examine Authentication Settings:** If authentication is configured, check that the keys match.
+6. **Check for ACLs or Firewalls:** Ensure no ACLs or firewalls are blocking EIGRP traffic.
+7. **Inspect the Hold and Hello Timers:** Ensure timers are configured correctly and are compatible.
+8. **Review EIGRP Debug Output:** Use debug commands to see if there are errors in forming neighborships.
 
 ### Commands to Run and What to Expect
 
 **Check EIGRP Neighbors**
 
-
+\```bash 
 show ip eigrp neighbors
-
+\```
 Expected Output: List of EIGRP neighbors with the state "up."
-
+\```bash 
 Neighbor ID     Interface       Hold   Uptime   SRTT   RTO   Q  Seq
 192.168.1.2     Gi0/0           12     00:10:45 1      100   0  3
-
+\```
 **Verify EIGRP Topology**
-
+\```bash 
 show ip eigrp topology
-
+\```
 Expected Output: Displays EIGRP routes in the topology table, showing successors and feasible successors.
-
+\```bash 
 P 192.168.1.0/24, 1 successors, FD is 28160
    via 192.168.1.2 (28160/2576), GigabitEthernet0/0
-
+\```
 **Check EIGRP Interface Status**
-
+\```bash 
 show ip eigrp interfaces
-
+\```
 Expected Output: Lists interfaces where EIGRP is enabled.
-
+\```bash 
 GigabitEthernet0/0 is up, line protocol is up
 IP-EIGRP 100 for AS(100)
-
+\```
 **Verify EIGRP Parameters**
-
+\```bash 
 show ip protocols
-
+\```
 Expected Output: Confirms EIGRP configuration, including AS number and network statements.
-
+\```bash 
 Routing Protocol is "eigrp 100"
   Outgoing update filter list for all interfaces is not set
   Incoming update filter list for all interfaces is not set
   Default networks flagged in outgoing updates
   Default metric weights are K1=1, K2=0, K3=1, K4=0, K5=0
-
+\```
 **Inspect EIGRP Authentication**
-
+\```bash 
 show ip eigrp neighbors detail
-
+\```
 Expected Output: Details on EIGRP neighbors, including authentication status.
-
+\```bash 
 Neighbor 192.168.1.2, Interface: GigabitEthernet0/0
 Authentication mode is enabled
-
+\```
 **Debug EIGRP Packets**
-
+\```bash 
 debug eigrp packets
-
+\```
 Expected Output: Detailed output on EIGRP packets being sent and received; useful for diagnosing neighborship issues.
-
+\```bash 
 EIGRP: Sending HELLO on GigabitEthernet0/0
 EIGRP: Received HELLO on GigabitEthernet0/0 from 192.168.1.2
+\```
