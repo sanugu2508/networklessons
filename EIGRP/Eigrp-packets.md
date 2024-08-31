@@ -2,19 +2,17 @@
 
 EIGRP (Enhanced Interior Gateway Routing Protocol) uses five main types of packets to communicate with neighboring routers and maintain a stable and efficient routing environment. Each packet type has a specific role and function in the operation of EIGRP. 
 EIGRP Packet Types:
-
-    Hello Packets
-    Update Packets
-    Query Packets
-    Reply Packets
-    Acknowledgment (ACK) Packets
+-Hello Packets
+-Update Packets
+-Query Packets
+-Reply Packets
+-Acknowledgment (ACK) Packets
 
     memorize it using ***Happy Users Quickly Restart Applications***
 
 Flow and Purpose of Each EIGRP Packet Type:
 ## 1. Hello Packets:
-
-    Purpose: Hello packets are used by EIGRP routers to discover and maintain neighbor relationships. They are also used to indicate that a router is alive and functioning properly.
+**Purpose:** Hello packets are used by EIGRP routers to discover and maintain neighbor relationships. They are also used to indicate that a router is alive and functioning properly.
     Flow:
         Initiation: When an EIGRP process starts, the router sends Hello packets on all EIGRP-enabled interfaces.
         Multicast Communication: Hello packets are typically sent using a multicast address (224.0.0.10 for IPv4, FF02::A for IPv6) to all EIGRP neighbors on the ***same network segment.***
@@ -24,7 +22,7 @@ Flow and Purpose of Each EIGRP Packet Type:
 
 ## 2. Update Packets:
 
-    ***Purpose:*** Update packets are used to transmit routing information to neighbors. These packets can advertise new routes or withdraw routes that are no longer available.
+**Purpose:** Update packets are used to transmit routing information to neighbors. These packets can advertise new routes or withdraw routes that are no longer available.
     Flow:
         Triggered by Route Changes only: Update packets are sent when a new route is added, a route changes, or a route is removed (withdrawn). This occurs when there is a change in network topology or configuration.
         Unicast or Multicast: If an Update is sent to a single neighbor, it is sent as a unicast. If the Update needs to be sent to multiple neighbors, it is sent as a multicast.
@@ -33,7 +31,7 @@ Flow and Purpose of Each EIGRP Packet Type:
 
 ## 3. Query Packets:
 
-    ***Purpose:*** Query packets are used to ask neighbors for information about a route that has gone inactive or become unreachable. Queries are typically sent when a router does not have a feasible successor for a route and needs to find an alternative path.
+**Purpose:** Query packets are used to ask neighbors for information about a route that has gone inactive or become unreachable. Queries are typically sent when a router does not have a feasible successor for a route and needs to find an alternative path.
     Flow:
         Triggered by Topology Changes: When a router loses a route and does not have a feasible successor (an alternative path that satisfies the feasibility condition), it enters the "Active" state for that route and sends a Query packet.
         Multicast Communication: Query packets are sent as multicast messages to all EIGRP neighbors, asking if they have a route to the affected destination.
@@ -42,7 +40,7 @@ Flow and Purpose of Each EIGRP Packet Type:
 
 ## 4. Reply Packets:
 
-    ***Purpose:*** Reply packets are sent in response to Query packets to indicate whether a router has a feasible route to a particular destination.
+**Purpose:** Reply packets are sent in response to Query packets to indicate whether a router has a feasible route to a particular destination.
     Flow:
         Response to Queries: When a router receives a Query packet, it checks its topology table for an alternative route to the queried destination.
         Unicast Communication: If an alternative route is available, the router sends a Reply packet with the route information back to the querying router. If no route is available, it sends a Reply indicating the route is not found.
@@ -50,7 +48,7 @@ Flow and Purpose of Each EIGRP Packet Type:
 
 ## 5. Acknowledgment (ACK) Packets:
 
-    ***Purpose:*** ACK packets are used to acknowledge the receipt of Update, Query, or Reply packets to ensure reliable delivery.
+**Purpose:** ACK packets are used to acknowledge the receipt of Update, Query, or Reply packets to ensure reliable delivery.
     Flow:
         Unicast Acknowledgment: ACK packets are sent as unicast messages directly to the neighbor from whom the Update, Query, or Reply packet was received.
         Empty Packet: An ACK packet is essentially an empty EIGRP Hello packet with no data payload, used purely for acknowledgment purposes.
