@@ -14,12 +14,12 @@ EIGRP (Enhanced Interior Gateway Routing Protocol) neighbor adjacency formation 
 ### EIGRP Neighborship Formation
 
 ```
-+-----------------+                    +-----------------+
-|     Router A    |                    |     Router B    |
-| AS: 100         |                    | AS: 100         |
-| K-Values: 1,1,1 |                    | K-Values: 1,1,1 |
-| Interface: G0/0 |                    | Interface: G0/0 |
-+--------+--------+                    +--------+--------+
++---------------------+                    +---------------------+
+|     Router A        |                    |     Router B        |
+| AS: 100             |                    | AS: 100             |
+| K-Values: 1,0,1,0,1 |                    | K-Values: 1,0,1,0,1 |
+| Interface: G0/0     |                    | Interface: G0/0     |
++--------+------------+                    +--------+------------+
          |                                      |
          | Send Hello Packet                    | Receive Hello Packet
          |------------------------------------->|
@@ -58,7 +58,7 @@ If EIGRP neighbors are not forming or are unstable, follow this checklist:
 3. **Check IP Reachability:** Verify that there is Layer 3 connectivity between the routers.
 4. **Review Interface States:** Ensure the interfaces are up and not configured as passive.
 5. **Examine Authentication Settings:** If authentication is configured, check that the keys match.
-6. **Check for ACLs or Firewalls:** Ensure no ACLs or firewalls are blocking EIGRP traffic.
+6. **Check for ACLs or Firewalls:** Ensure no ACLs or firewalls are blocking EIGRP traffic i.e. **IP Portocol 88**.
 7. **Inspect the Hold and Hello Timers:** Ensure timers are configured correctly and are compatible.
 8. **Review EIGRP Debug Output:** Use debug commands to see if there are errors in forming neighborships.
 
