@@ -1,12 +1,13 @@
 # EIGRP Packets: Detailed Explanation and Flow
 
 EIGRP (Enhanced Interior Gateway Routing Protocol) uses five main types of packets to communicate with neighboring routers and maintain a stable and efficient routing environment. Each packet type has a specific role and function in the operation of EIGRP. 
-EIGRP Packet Types:
--Hello Packets
--Update Packets
--Query Packets
--Reply Packets
--Acknowledgment (ACK) Packets
+
+- EIGRP Packet Types:
+ - Hello Packets
+ - Update Packets
+ - Query Packets
+ - Reply Packets
+ - Acknowledgment (ACK) Packets
 
     memorize it using ***Happy Users Quickly Restart Applications***
 
