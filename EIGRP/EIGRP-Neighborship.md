@@ -43,11 +43,11 @@ EIGRP (Enhanced Interior Gateway Routing Protocol) neighbor adjacency formation 
 ```
 ### Conditions for Successful Adjacency Formation
 
-    Matching Autonomous System (AS) Number: Routers must be in the same EIGRP AS.
-    Matching K-Values: The K-values used for metric calculation must match.
-    Authentication: If configured, authentication must match between routers.
-    IP Reachability: Routers must be reachable at Layer 3.
-    Interface State: Interfaces must be up and not configured as passive.
+1. **Matching Autonomous System (AS) Number:** Routers must be in the same EIGRP AS.
+2. **Matching K-Values:** The K-values used for metric calculation must match.
+3. **Authentication:** If configured, authentication must match between routers.
+4. **IP Reachability:** Routers must be reachable at Layer 3.
+5. **Interface State:** Interfaces must be up and not configured as passive.
 
 ### Troubleshooting EIGRP Neighborship
 
@@ -72,7 +72,7 @@ show ip eigrp neighbors
 Expected Output: List of EIGRP neighbors with the state "up."
 ```plaintext 
 Neighbor ID     Interface       Hold   Uptime   SRTT   RTO   Q  Seq
-192.168.1.2     Gi0/0           12     `00:10:45` 1      100   0  3
+192.168.1.2     Gi0/0           12     **00:10:45** 1      100   0  3
 ```
 **Verify EIGRP Topology**
 ```plaintext 
