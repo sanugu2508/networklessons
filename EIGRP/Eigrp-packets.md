@@ -55,7 +55,7 @@ Flow and Purpose of Each EIGRP Packet Type:
     - Empty Packet: An ACK packet is essentially an empty EIGRP Hello packet with no data payload, used purely for acknowledgment purposes.
     - Ensuring Reliability: The reliable transport mechanism of EIGRP ensures that Update, Query, and Reply packets are retransmitted if an ACK is not received within a certain timeout period.
 
-
+```
 
   Router A                                Router B
 +----------+                             +----------+
@@ -81,7 +81,7 @@ Flow and Purpose of Each EIGRP Packet Type:
 |          |                             |          |
 +----------+                             +----------+
 
-
+```
 Hello Packet (1 & 2):
 
     Purpose: Discover and maintain neighbor relationships.
