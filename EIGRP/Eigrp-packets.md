@@ -54,3 +54,55 @@ Flow and Purpose of Each EIGRP Packet Type:
     - Unicast Acknowledgment: ACK packets are sent as unicast messages directly to the neighbor from whom the Update, Query, or Reply packet was received.
     - Empty Packet: An ACK packet is essentially an empty EIGRP Hello packet with no data payload, used purely for acknowledgment purposes.
     - Ensuring Reliability: The reliable transport mechanism of EIGRP ensures that Update, Query, and Reply packets are retransmitted if an ACK is not received within a certain timeout period.
+
+
+
+  Router A                                Router B
++----------+                             +----------+
+|          |                             |          |
+|  Router  |<----- Hello (1) ----------->|  Router  |
+|    A     |       (Discover Neighbor)   |    B     |
+|          |                             |          |
+|          |                             |          |
+|----------|<---- Hello (2) ------------ |----------|
+|          |        (Reply Hello)        |          |
+|          |                             |          |
+|          |----- Update (3) ----------> |          |
+|          | (Send routing information)  |          |
+|          |                             |          |
+|          |<--- ACK (4) --------------- |          |
+|          |    (Acknowledge Update)     |          |
+|          |                             |          |
+|          |----- Query (5) ------------>|          |
+|          | (Query for alternate path)  |          |
+|          |                             |          |
+|          |<--- Reply (6) ------------- |          |
+|          |     (Send Reply)            |          |
+|          |                             |          |
++----------+                             +----------+
+
+
+Hello Packet (1 & 2):
+
+    Purpose: Discover and maintain neighbor relationships.
+    Exchange: Routers A and B exchange Hello packets to establish a neighbor relationship.
+
+Update Packet (3):
+
+    Purpose: Send routing information to neighbors.
+    Exchange: Router A sends an Update packet to Router B with routing information.
+
+ACK (Acknowledgment) Packet (4):
+
+    Purpose: Acknowledge receipt of reliable packets like Updates.
+    Exchange: Router B sends an ACK to Router A, confirming it received the Update packet.
+
+Query Packet (5):
+
+    Purpose: Sent when a route goes down, and the router is looking for an alternative path.
+    Exchange: Router A sends a Query packet to Router B, asking for alternative paths to a lost route.
+
+Reply Packet (6):
+
+    Purpose: Sent in response to a Query, providing information about alternate routes.
+    Exchange: Router B replies with a Reply packet to Router A, providing information about an alternate route if available.
