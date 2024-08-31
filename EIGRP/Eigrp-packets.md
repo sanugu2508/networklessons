@@ -84,25 +84,24 @@ Flow and Purpose of Each EIGRP Packet Type:
 ```
 Hello Packet (1 & 2):
 
-    Purpose: Discover and maintain neighbor relationships.
-    Exchange: Routers A and B exchange Hello packets to establish a neighbor relationship.
+- Purpose: Discover and maintain neighbor relationships.
+- Exchange: Routers A and B exchange Hello packets to establish a neighbor relationship.
 
 Update Packet (3):
-
-    Purpose: Send routing information to neighbors.
-    Exchange: Router A sends an Update packet to Router B with routing information.
+- Purpose: Send routing information to neighbors.
+- Exchange: Router A sends an Update packet to Router B with routing information.
 
 ACK (Acknowledgment) Packet (4):
 
-    Purpose: Acknowledge receipt of reliable packets like Updates.
-    Exchange: Router B sends an ACK to Router A, confirming it received the Update packet.
+- Purpose: Acknowledge receipt of reliable packets like Updates.
+- Exchange: Router B sends an ACK to Router A, confirming it received the Update packet.
 
 Query Packet (5):
 
-    Purpose: Sent when a route goes down, and the router is looking for an alternative path.
-    Exchange: Router A sends a Query packet to Router B, asking for alternative paths to a lost route.
+- Purpose: Sent when a route goes down, and the router is looking for an alternative path.
+- Exchange: Router A sends a Query packet to Router B, asking for alternative paths to a lost route.
 
 Reply Packet (6):
 
-    Purpose: Sent in response to a Query, providing information about alternate routes.
-    Exchange: Router B replies with a Reply packet to Router A, providing information about an alternate route if available.
+- Purpose: Sent in response to a Query, providing information about alternate routes.
+- Exchange: Router B replies with a Reply packet to Router A, providing information about an alternate route if available.
