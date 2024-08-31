@@ -43,14 +43,14 @@ Flow and Purpose of Each EIGRP Packet Type:
 
 **Purpose:** Reply packets are sent in response to Query packets to indicate whether a router has a feasible route to a particular destination.
 - Flow:
- - Response to Queries: When a router receives a Query packet, it checks its topology table for an alternative route to the queried destination.
- - Unicast Communication: If an alternative route is available, the router sends a Reply packet with the route information back to the querying router. If no route is available, it sends a Reply indicating the route is not found.
- - Stopping Query Propagation: The Reply packet helps in stopping the propagation of queries through the network, aiding in quicker convergence.
+    - Response to Queries: When a router receives a Query packet, it checks its topology table for an alternative route to the queried destination.
+    - Unicast Communication: If an alternative route is available, the router sends a Reply packet with the route information back to the querying router. If no route is available, it sends a Reply indicating the route is not found.
+    - Stopping Query Propagation: The Reply packet helps in stopping the propagation of queries through the network, aiding in quicker convergence.
 
 ## 5. Acknowledgment (ACK) Packets:
 
 **Purpose:** ACK packets are used to acknowledge the receipt of Update, Query, or Reply packets to ensure reliable delivery.
  - Flow:
-  - Unicast Acknowledgment: ACK packets are sent as unicast messages directly to the neighbor from whom the Update, Query, or Reply packet was received.
-  - Empty Packet: An ACK packet is essentially an empty EIGRP Hello packet with no data payload, used purely for acknowledgment purposes.
-  - Ensuring Reliability: The reliable transport mechanism of EIGRP ensures that Update, Query, and Reply packets are retransmitted if an ACK is not received within a certain timeout period.
+    - Unicast Acknowledgment: ACK packets are sent as unicast messages directly to the neighbor from whom the Update, Query, or Reply packet was received.
+    - Empty Packet: An ACK packet is essentially an empty EIGRP Hello packet with no data payload, used purely for acknowledgment purposes.
+    - Ensuring Reliability: The reliable transport mechanism of EIGRP ensures that Update, Query, and Reply packets are retransmitted if an ACK is not received within a certain timeout period.
