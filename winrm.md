@@ -1,4 +1,4 @@
-Given that the service account is already a member of the relevant groups (**Distributed COM Users**, **Event Log Readers**, **Remote Management Users**, **Server Operators**, **WinRMRemoteWMIUsers**, and **Domain Users**), it should have most of the necessary permissions to perform WinRM tasks. However, if it's still not working unless added to the **Administrators** group, there may be specific permissions or configurations that need to be adjusted. Here are some additional steps and checks to ensure the service account can function without being in the **Administrators** group:
+
 
 ### Additional Permissions and Configurations for WinRM
 
@@ -70,6 +70,4 @@ Given that the service account is already a member of the relevant groups (**Dis
 3. **Verify Network Restrictions**:
    - Ensure there are no network firewalls or restrictions blocking WinRM traffic between the Palo Alto firewall and the Domain Controller.
 
-### Conclusion
-
-By checking and modifying **WMI permissions**, **WinRM security settings**, **DCOM permissions**, and ensuring proper **Group Policy** configurations, you should be able to allow the service account to use **WinRM** for remote management without requiring it to be a member of the **Administrators** group. The key is to provide just enough permissions for the required tasks while keeping the principle of least privilege intact.
+ modifying **WMI permissions**, **WinRM security settings**, **DCOM permissions**, and ensuring proper **Group Policy** configurations, you should be able to allow the service account to use **WinRM** for remote management
