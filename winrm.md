@@ -1,73 +1,83 @@
+Configuration for PEAP-MSCHAPv2 on NPS and Switches
+1. Configure the RADIUS Server (NPS) for PEAP-MSCHAPv2
 
+    Open the NPS Console:
+        Open the Network Policy Server console (nps.msc).
 
-### Additional Permissions and Configurations for WinRM
+    Add RADIUS Clients:
+        Go to RADIUS Clients and Servers > RADIUS Clients.
+        Add each Ruckus switch, Arista switch, and Palo Alto device as a RADIUS Client.
+        Enter the IP address of each device and configure a shared secret for authentication.
 
-1. **Check Specific WMI Namespace Permissions**:
-   - Even though the account is in the **WinRMRemoteWMIUsers__** group, there might be specific **WMI namespaces** that require additional permissions.
-   - Open **WMI Control** (`wmimgmt.msc`) and navigate to **Security**.
-   - Check permissions for the **Root\CIMV2** and **Root\Default** namespaces:
-     - Right-click on **CIMV2** and **Default**, select **Properties**, then go to **Security**.
-     - Ensure the service account has **Execute Methods**, **Enable Account**, and **Remote Enable** permissions on these namespaces.
-   
-2. **Modify WinRM Security Settings**:
-   - Sometimes, WinRM's security settings need more granular permissions:
-   - Open PowerShell and run:
-     ```powershell
-     Set-PSSessionConfiguration -Name Microsoft.PowerShell -ShowSecurityDescriptorUI
-     ```
-   - This brings up the security descriptor UI where you can directly add the service account and provide **Full Control** or **Read** and **Execute** permissions.
+    Create a Network Policy for PEAP-MSCHAPv2:
+        Navigate to Policies > Network Policies.
+        Create a new network policy or edit an existing one for PEAP-MSCHAPv2 authentication.
+        Set the Conditions to specify user groups (e.g., Network Admins) or other attributes.
+        Under Constraints > Authentication Methods, select "Microsoft: Protected EAP (PEAP)".
+        Click Edit and choose "Secured password (EAP-MSCHAP v2)" as the inner authentication method.
+        Ensure certificate validation settings are correctly configured for PEAP (this is where the server certificate will be used).
 
-3. **Ensure Correct Permissions on WinRM Listeners**:
-   - The **WinRM** service creates listeners for different network profiles. Ensure the service account has the necessary permissions to access these listeners.
-   - Run the following command to check listeners:
-     ```powershell
-     winrm enumerate winrm/config/listener
-     ```
-   - Make sure the listener is correctly configured to allow access from the service account’s IP or subnet.
+2. Configure Ruckus Switches for PEAP-MSCHAPv2
 
-4. **Check Group Policy and Local Security Policies**:
-   - Open **Local Group Policy Editor** (`gpedit.msc`) or **Group Policy Management** (`gpmc.msc`).
-   - Navigate to **Computer Configuration > Administrative Templates > Windows Components > Windows Remote Management (WinRM) > WinRM Service**.
-   - Ensure that the policies **Allow remote server management through WinRM** and **Allow Basic authentication** (if needed) are properly configured.
-   - Ensure the service account has **Log on as a service** and **Log on as a batch job** rights if running scripts or tasks via WinRM.
+    Access the Ruckus Switch Management Interface:
+        Log in to the Ruckus switch via CLI.
 
-5. **Check DCOM Configuration Permissions**:
-   - Since **Distributed COM Users** are relevant to WinRM tasks, ensure the correct **DCOM permissions** are set.
-   - Open **Component Services** (`dcomcnfg`).
-   - Navigate to **Component Services > Computers > My Computer > DCOM Config**.
-   - Look for the **Windows Remote Management** (WS-Management) entry.
-   - Right-click and select **Properties**, then go to **Security**.
-   - Under **Launch and Activation Permissions**, **Access Permissions**, and **Configuration Permissions**, ensure the service account is listed with appropriate permissions.
+    Configure RADIUS Settings:
+        Set up 802.1X authentication for the management interface:
 
-6. **Ensure Kerberos Authentication and SPNs**:
-   - If **Kerberos** authentication is used, ensure that the correct **Service Principal Name (SPN)** is registered for the service account.
-   - Run:
-     ```shell
-     setspn -L <service-account-name>
-     ```
-   - Ensure there is an **HTTP/<hostname>** SPN for the WinRM service.
+        shell
 
-7. **Check Local Machine Policies on the Domain Controller or AD**:
-   - Open **Local Security Policy** (`secpol.msc`).
-   - Navigate to **Local Policies > User Rights Assignment**.
-   - Ensure the service account has **Access this computer from the network** and **Allow log on through Remote Desktop Services** (if relevant).
+        enable
+        configure terminal
+        aaa authentication login default radius
+        radius-server host [NPS_IP] key [shared_secret]
+        line vty 0 4
+        login authentication default
 
-### Additional Troubleshooting Steps
+        Ensure the switch is configured to use PEAP-MSCHAPv2 for authenticating network admins.
 
-1. **Check Event Logs**:
-   - Open **Event Viewer** (`eventvwr.msc`) on the **Domain Controller** or the server that the Palo Alto firewall is managing.
-   - Look for **Security logs** and **System logs** related to **WinRM** and **authentication** errors.
-   - Pay attention to any **Access Denied** errors or **Logon Failure** events which might indicate specific permission issues.
+3. Configure Arista Switches for PEAP-MSCHAPv2
 
-2. **Enable WinRM Logging**:
-   - Increase the verbosity of WinRM logging to capture more detailed information on why the service account is not succeeding:
-   ```powershell
-   winrm set winrm/config/service @{EnableCompatibilityHttpListener="true"}
-   winrm set winrm/config/service @{EnableCompatibilityHttpsListener="true"}
-   ```
-   - Check the logs under **Applications and Services Logs > Microsoft > Windows > Windows Remote Management**.
+    Access the Arista Switch Management Interface:
+        Log in to the Arista switch via CLI.
 
-3. **Verify Network Restrictions**:
-   - Ensure there are no network firewalls or restrictions blocking WinRM traffic between the Palo Alto firewall and the Domain Controller.
+    Configure RADIUS Settings:
+        Set up RADIUS authentication for login access:
 
- modifying **WMI permissions**, **WinRM security settings**, **DCOM permissions**, and ensuring proper **Group Policy** configurations, you should be able to allow the service account to use **WinRM** for remote management
+        shell
+
+        configure terminal
+        aaa group server radius RADIUS-SERVER
+        server [NPS_IP] key [shared_secret]
+
+        aaa authentication login default group RADIUS-SERVER local
+        aaa authorization exec default group RADIUS-SERVER local
+
+        Configure 802.1X settings if needed for wired or management access.
+
+4. Configure Palo Alto Firewalls for PEAP-MSCHAPv2
+
+    Access the Palo Alto Management Interface:
+        Log in to the Palo Alto device via the Web UI.
+
+    Configure RADIUS Server Settings:
+        Go to Device > Server Profiles > RADIUS.
+        Add a new RADIUS server profile:
+            Enter the Name for the profile.
+            Add the RADIUS server IP address (the IP of your NPS server).
+            Enter the shared secret configured on the RADIUS server.
+            Set the Timeout and Retry Interval settings as needed.
+
+    Configure Authentication Profile for PEAP-MSCHAPv2:
+        Go to Device > Authentication Profile.
+        Add a new Authentication Profile.
+        Set the Type to RADIUS.
+        Select the RADIUS server profile created earlier.
+        Under Advanced > Allow List, select all or specific user groups allowed to authenticate.
+
+    Assign Authentication Profiles to the Management Interface:
+        Go to Device > Setup > Management.
+        Select the Authentication Profile for PEAP-MSCHAPv2 to apply to the management interface.
+
+    Commit the Configuration:
+        Click Commit in the upper right corner of the Web UI to apply the changes to the Palo Alto firewall.
